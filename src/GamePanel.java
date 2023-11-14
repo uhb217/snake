@@ -1,5 +1,3 @@
-import inputs.KeyboardInputs;
-
 import java.awt.*;
 import javax.swing.JPanel;
 
@@ -7,44 +5,67 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel {
 	private SnakeBodyPart[] snake;
 	private int counter = 0;
+	private char Direction = 'U';
 
 	public GamePanel() {
 		setPanelSize();
-		addKeyListener(new KeyboardInputs());
+		addKeyListener(new KeyboardInputs(this));
 	}
+	public void setDirection(char D){
+		this.Direction = D;
+	}
+
 	private void setPanelSize() {
 		Dimension size = new Dimension(1280, 800);
 		setPreferredSize(size);
 		setupSnake();
 	}
-
-	public void updateGame() {
-		if (counter == 120/Game.LEVEL){
-			snake[1].setX();
-		}
-	}
-
 	private void drawSnake(Graphics g){
-		for (int i = 0; i < snake.length; i++) {
-			if (snake[i] != null){
-				drawSnakeBodyPart(snake[i],g);
-			}
+		for (SnakeBodyPart snakeBodyPart : snake) {
+			if (snakeBodyPart != null) drawSnakeBodyPart(snakeBodyPart, g);
 		}
-
 	}
 	private void setupSnake(){
 		snake = new SnakeBodyPart[1000];
-		snake[1] = new SnakeBodyPart(320,320);
-		snake[2] = new SnakeBodyPart(352,320);
-		snake[3] = new SnakeBodyPart(384,320);
+		snake[0] = new SnakeBodyPart(320, 320);
+		snake[1] = new SnakeBodyPart(352, 320);
+		snake[2] = new SnakeBodyPart(384, 320);
 	}
 	private void drawSnakeBodyPart(SnakeBodyPart snake, Graphics g){
 		g.setColor(Color.GREEN);
 		g.fillRect(snake.x,snake.y,32,32);
 	}
-
+	public void move(char direction){
+		int lastX = 0, lastY = 0, x, y;
+		for (int i = 0; i < snake.length; i++) {
+			if (snake[i] != null){
+				x = lastX;
+				y = lastY;
+				lastX = snake[i].x;
+				lastY = snake[i].y;
+				if (i == 0){
+					switch (direction) {
+						case 'U' -> snake[i].setLocation(snake[i].x, snake[i].y - 32);
+						case 'D' -> snake[i].setLocation(snake[i].x, snake[i].y + 32);
+						case 'L' -> snake[i].setLocation(snake[i].x - 32, snake[i].y);
+						case 'R' -> snake[i].setLocation(snake[i].x + 32, snake[i].y);
+					}
+				}
+				else snake[i].setLocation(x,y);
+			}
+		}
+	}
+	public void updateGame() {
+		if (counter == 120/Game.LEVEL){
+			move(Direction);
+			counter = 0;
+		}
+		counter++;
+	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+
+		//draw background
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,1280, 800);
 
@@ -59,7 +80,7 @@ public class GamePanel extends JPanel {
 			g.drawLine(0,i,1280,i);
 		}
 	}
-	public class SnakeBodyPart{
+	public static class SnakeBodyPart{
 		private int x;
 		private int y;
 		public SnakeBodyPart(int x,int y){
@@ -71,5 +92,4 @@ public class GamePanel extends JPanel {
 			this.y = y;
 		}
 	}
-
 }
