@@ -6,6 +6,8 @@ public class Game implements Runnable {
 	private final int FPS_SET = 120;
 	private final int UPS_SET = 200;
 	public static final int LEVEL = 4;
+	public static final int WIDTH = 30 * 32;
+	public static final int HEIGHT = 20 * 32;
 
 	public Game() {
 

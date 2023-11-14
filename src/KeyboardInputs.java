@@ -24,6 +24,9 @@ public class KeyboardInputs implements KeyListener{
             gamePanel.setDirection('L');
         }else if (e.getKeyCode() == VK_D){
             gamePanel.setDirection('R');
+        }else if (e.getKeyCode() == VK_SPACE){
+            if (!gamePanel.play) gamePanel.play = true;
+            else gamePanel.play = false;
         }
     }
 
