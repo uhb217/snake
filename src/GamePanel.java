@@ -21,13 +21,21 @@ public class GamePanel extends JPanel {
 	}
 
 	private void drawSnake(Graphics g){
-		drawSnakeBodyPart(snake[1],g);
+		for (int i = 0; i < snake.length; i++) {
+			if (snake[i] != null){
+				drawSnakeBodyPart(snake[i],g);
+			}
+		}
 
-	}private void setupSnake(){
+	}
+	private void setupSnake(){
 		snake = new SnakeBodyPart[1000];
-		snake[1] = new SnakeBodyPart(320,320,true);
-		snake[2] = new SnakeBodyPart(352,320,true);
-		snake[3] = new SnakeBodyPart(384,320,true);
+		snake[1] = new SnakeBodyPart(320,320);
+		snake[2] = new SnakeBodyPart(352,320);
+		snake[3] = new SnakeBodyPart(384,320);
+//		for (int i = 4; i < snake.length; i++) {
+//			snake[i] = new SnakeBodyPart(0,0,false);
+//		}
 	}
 	private void drawSnakeBodyPart(SnakeBodyPart snake, Graphics g){
 		g.setColor(Color.GREEN);
@@ -39,6 +47,9 @@ public class GamePanel extends JPanel {
 		g.setColor(Color.BLACK);
 		g.fillRect(0,0,1280, 800);
 
+		drawSnake(g);
+
+		//draw lines
 		g.setColor(new Color(134, 127, 127));
 		for (int i = 32; i < 1280; i+=32) {
 			g.drawLine(i,0,i,800);
@@ -46,16 +57,13 @@ public class GamePanel extends JPanel {
 		for (int i = 32; i < 800; i+=32) {
 			g.drawLine(0,i,1280,i);
 		}
-		drawSnake(g);
 	}
 	public class SnakeBodyPart{
 		private int x;
 		private int y;
-		private boolean isExist = false;
-		public SnakeBodyPart(int x,int y,boolean isExist){
+		public SnakeBodyPart(int x,int y){
 			this.x = x;
 			this.y = y;
-			this.isExist = isExist;
 		}
 
 		public int getX() {
@@ -72,14 +80,6 @@ public class GamePanel extends JPanel {
 
 		public void setY(int y) {
 			this.y = y;
-		}
-
-		public boolean isExist() {
-			return isExist;
-		}
-
-		public void setExist(boolean exist) {
-			isExist = exist;
 		}
 	}
 
