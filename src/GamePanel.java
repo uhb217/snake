@@ -19,10 +19,13 @@ public class GamePanel extends JPanel {
 
 	public void updateGame() {
 	}
-	private void setupSnake(Graphics g){
+
+	private void drawSnake(Graphics g){
 		snake[1] = new SnakeBodyPart(320,320,true);
 		drawSnakeBodyPart(snake[1],g);
 
+	}private void setupSnake(){
+		snake[1] = new SnakeBodyPart(320,320,true);
 	}
 	private void drawSnakeBodyPart(SnakeBodyPart snake, Graphics g){
 		g.setColor(Color.GREEN);
@@ -41,7 +44,7 @@ public class GamePanel extends JPanel {
 		for (int i = 32; i < 800; i+=32) {
 			g.drawLine(0,i,1280,i);
 		}
-		setupSnake(g);
+		drawSnake(g);
 	}
 	public class SnakeBodyPart{
 		private int x;
