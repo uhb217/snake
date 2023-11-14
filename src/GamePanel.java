@@ -14,18 +14,20 @@ public class GamePanel extends JPanel {
 	private void setPanelSize() {
 		Dimension size = new Dimension(1280, 800);
 		setPreferredSize(size);
-		snake = new SnakeBodyPart[1000];
+		setupSnake();
 	}
 
 	public void updateGame() {
 	}
 
 	private void drawSnake(Graphics g){
-		snake[1] = new SnakeBodyPart(320,320,true);
 		drawSnakeBodyPart(snake[1],g);
 
 	}private void setupSnake(){
+		snake = new SnakeBodyPart[1000];
 		snake[1] = new SnakeBodyPart(320,320,true);
+		snake[2] = new SnakeBodyPart(352,320,true);
+		snake[3] = new SnakeBodyPart(384,320,true);
 	}
 	private void drawSnakeBodyPart(SnakeBodyPart snake, Graphics g){
 		g.setColor(Color.GREEN);
