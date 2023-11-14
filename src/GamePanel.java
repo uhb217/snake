@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 	private SnakeBodyPart[] snake;
+	private int counter = 0;
 
 	public GamePanel() {
 		setPanelSize();
@@ -18,6 +19,9 @@ public class GamePanel extends JPanel {
 	}
 
 	public void updateGame() {
+		if (counter == 120/Game.LEVEL){
+			snake[1].setX();
+		}
 	}
 
 	private void drawSnake(Graphics g){
@@ -33,9 +37,6 @@ public class GamePanel extends JPanel {
 		snake[1] = new SnakeBodyPart(320,320);
 		snake[2] = new SnakeBodyPart(352,320);
 		snake[3] = new SnakeBodyPart(384,320);
-//		for (int i = 4; i < snake.length; i++) {
-//			snake[i] = new SnakeBodyPart(0,0,false);
-//		}
 	}
 	private void drawSnakeBodyPart(SnakeBodyPart snake, Graphics g){
 		g.setColor(Color.GREEN);
@@ -65,20 +66,8 @@ public class GamePanel extends JPanel {
 			this.x = x;
 			this.y = y;
 		}
-
-		public int getX() {
-			return x;
-		}
-
-		public void setX(int x) {
+		public void setLocation(int x,int y) {
 			this.x = x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		public void setY(int y) {
 			this.y = y;
 		}
 	}
