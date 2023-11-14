@@ -1,5 +1,8 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
@@ -10,6 +13,7 @@ public class GamePanel extends JPanel {
 	private int counter = 0;
 	private char Direction = 'U';
 	public boolean changeDirection = true, play = true;
+	BufferedImage apple, snakeBody;
 
 	public GamePanel() {
 		setup();
@@ -38,12 +42,18 @@ public class GamePanel extends JPanel {
 		snake[0] = new SnakeBodyPart(320, 320);
 		snake[1] = new SnakeBodyPart(352, 320);
 		snake[2] = new SnakeBodyPart(384, 320);
-
+		try {
+			apple = ImageIO.read(getClass().getResourceAsStream("/assets/apple.png"));
+			snakeBody = ImageIO.read(getClass().getResourceAsStream("/assets/body1.png"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		spawnApple();
 	}
 	private void drawSnakeBodyPart(SnakeBodyPart snake, Graphics g){
 		g.setColor(Color.GREEN);
-		g.fillRect(snake.x,snake.y,32,32);
+//		g.fillArc(snake.x,snake.y,32,32,0,360);
+		g.drawImage(snakeBody,snake.x,snake.y,null);
 	}
 	public void move(char direction){
 		int lastX = 0, lastY = 0, x, y;
@@ -99,7 +109,7 @@ public class GamePanel extends JPanel {
 		return false;
 	}
 	public void updateGame() {
-		if (!isLose() && play == true){
+		if (!isLose() && play){
 			if (counter == 120/Game.LEVEL){
 				move(Direction);
 				counter = 0;
@@ -112,7 +122,7 @@ public class GamePanel extends JPanel {
 		super.paintComponent(g);
 
 		//draw background
-		g.setColor(Color.BLACK);
+		g.setColor(new Color(150,210,2));
 		g.fillRect(0,0,Game.WIDTH, Game.HEIGHT);
 
 		drawSnake(g);
@@ -125,8 +135,10 @@ public class GamePanel extends JPanel {
 		for (int i = 32; i < Game.HEIGHT; i+=32) {
 			g.drawLine(0,i,Game.WIDTH,i);
 		}
-		g.setColor(Color.RED);
-		g.fillRect(appleX,appleY,32,32);
+
+		g.drawImage(apple,appleX,appleY,32,32,null);
+		g.drawImage(snakeBody,0,0,32,32,null);
+
 		g.setFont(new Font("f",Font.BOLD,80));
 		if (isLose()) g.drawString("Game Over",100,100);
 	}
