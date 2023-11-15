@@ -16,13 +16,13 @@ public class KeyboardInputs implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == VK_W){
+        if (e.getKeyCode() == VK_W || e.getKeyCode() == VK_UP){
             gamePanel.setDirection('U');
-        }else if (e.getKeyCode() == VK_S){
+        }else if (e.getKeyCode() == VK_S || e.getKeyCode() == VK_DOWN){
             gamePanel.setDirection('D');
-        }else if (e.getKeyCode() == VK_A){
+        }else if (e.getKeyCode() == VK_A || e.getKeyCode() == VK_LEFT){
             gamePanel.setDirection('L');
-        }else if (e.getKeyCode() == VK_D){
+        }else if (e.getKeyCode() == VK_D || e.getKeyCode() == VK_RIGHT){
             gamePanel.setDirection('R');
         }else if (e.getKeyCode() == VK_SPACE){
             if (!gamePanel.play) gamePanel.play = true;
