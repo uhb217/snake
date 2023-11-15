@@ -12,7 +12,7 @@ public class GamePanel extends JPanel {
 	private int appleX, appleY, starX = -64, starY = -64;
 	private int counter = 0, score = 0, starScore = 0, speed = 0;
 	private char Direction = 'U';
-	public boolean changeDirection = true, play = false;
+	public boolean changeDirection = true, play = false, noWallGameMod = true;
 	BufferedImage apple, snakeBody, star;
 
 	public GamePanel() {
@@ -94,7 +94,7 @@ public class GamePanel extends JPanel {
 				spawnStar();
 		}
 	}
-	private void bodyContact(){
+	private void pieceContact(){
 		if (snake[0].x == appleX && snake[0].y == appleY){
 			spawnApple();
 			score++;
@@ -115,10 +115,12 @@ public class GamePanel extends JPanel {
 	}
 	private boolean isLose(){
 		SnakeBodyPart head = snake[0];
-		if (head.x >= Game.WIDTH) return true;
-		else if (head.x < 0) return true;
-		else if (head.y >= Game.HEIGHT) return true;
-		else if (head.y < 0) return true;
+		if (!noWallGameMod){
+			if (head.x >= Game.WIDTH) return true;
+			else if (head.x < 0) return true;
+			else if (head.y >= Game.HEIGHT) return true;
+			else if (head.y < 0) return true;
+		}
 		for (int i = 1; i < snake.length; i++) {
 			for (int j = 0; j < snake.length; j++) {
 				if (snake[i] != null && snake[j] != null && j != i && snake[i].x == snake[j].x && snake[i].y == snake[j].y) return true;
@@ -126,12 +128,21 @@ public class GamePanel extends JPanel {
 		}
 		return false;
 	}
+	private void teleportSnake(){
+		SnakeBodyPart head = snake[0];
+		if (head.x >= Game.WIDTH) head.setLocation(0,head.y);
+		else if (head.x < 0) head.setLocation(Game.WIDTH - 32,head.y);
+		else if (head.y >= Game.HEIGHT) head.setLocation(head.x,0);
+		else if (head.y < 0) head.setLocation(head.x,Game.HEIGHT - 32);
+	}
 	public void updateGame() {
 		if (!isLose() && play){
 			if (counter == 120/Game.LEVEL - speed){
 				move(Direction);
+				if (noWallGameMod)
+					teleportSnake();
 				counter = 0;
-				bodyContact();
+				pieceContact();
 			}
 			counter++;
 		}

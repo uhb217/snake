@@ -28,6 +28,7 @@ public class KeyboardInputs implements KeyListener{
             if (!gamePanel.play) gamePanel.play = true;
             else gamePanel.play = false;
         }
+        System.out.println(e.getKeyChar());
     }
 
     @Override
